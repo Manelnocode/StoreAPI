@@ -3,33 +3,47 @@ const Product = require('../models/product')
 
 
 const getAllProductsStatic = async (req,res) => {
-    const products = await Product.find({
-        name: "vase table"
     
-    })
+    const products = await Product.find({}).sort('-name price')
+    
     res.status(200).json({products, nbHits: products.length})
 }
 
 const getAllProducts = async (req,res) => {
     // De esta manera filtramos solamente por featured..
-    const {featured} = req.query
+    const {featured, company, name, sort} = req.query
 
     const queryObject = {}
 
     // esto es una expresion ternaria en la que su syntax es la siguiente:
-    // queryObject.featured = featured === 'true' ? true : false;
+    // condicion ? valorSiVerdadero : valorSiFalso
     // y seria equivalente a if (featured === 'true') {
     //queryObject.featured = true;
     // } else {
     // queryObject.featured = false;
     // }
 
+    // ya que queryObject es un objeto vacio, se le pueden añadir propiedades con la syntax de queryObject."propiedad"
+
     if (featured) {
         queryObject.featured = featured === 'true'? true : false
     }
+    if (company) {
+        queryObject.company = company
+    }
+    if (name) {
+        queryObject.name = {$regex: name, $options: 'i'}
+    }
     
     console.log(queryObject);
-    const products = await Product.find(queryObject)
+    let result = Product.find(queryObject)
+    
+    if (sort) {
+        const sortList = sort.split(',').join(' ');
+        result = result.sort(sortList)
+    }
+    
+    const products = await result
     res.status(200).json({products, nbHits: products.length})
 }
 

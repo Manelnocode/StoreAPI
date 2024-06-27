@@ -1,0 +1,11 @@
+En el proyecto anterior, creamos un midleware para manejar los errores. El archivo se llamava async errors y tomaba como argumento cada uno de los controladores. Esto se hacia para manejar los errores de manera cetralizada y no tener que setear un catch block por cada uno de los controladores.  
+
+
+Esta vez en este proyecto todavia lo vamos a gestionar de una manera mas optima utilizanod un package llamado (express-async-errors) 
+
+El paquete express-async-errors se utiliza en aplicaciones express para manejar errores en funciones asincronicas de manera mas sencilla, Normalmente cuando trabajas con fgunciones asincronicas en express debes envolver en cada ruta con un bloque try-catch para capturar y manejar errores. express-async-errors simplifica el proceso al permitirte manejar errores asincronicos sin necesidad de try-catch en cada ruta. 
+
+Este paquete intercepta automáticamente cualquier error que ocurra en una función asincrónica y lo pasa al middleware de manejo de errores de Express.
+
+
+npm install express-async-errors
